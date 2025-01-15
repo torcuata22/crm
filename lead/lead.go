@@ -10,11 +10,11 @@ import (
 
 type Lead struct {
 	gorm.Model
-	Name    string
-	Company string
-	Email   string
-	Phone   int
-	Message string
+	Name    string `json:"name"`
+	Company string `json:"company"`
+	Email   string `json:"email"`
+	Phone   int    `json:"phone"`
+	Message string `json:"message"`
 }
 
 func GetLeads(c *fiber.Ctx) error {
