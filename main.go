@@ -2,6 +2,8 @@ package main
 
 import (
 	"crm/database"
+	"crm/lead"
+	"fmt"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -11,11 +13,11 @@ import (
 
 // setup routes:
 func setupRoutes(app *fiber.App) {
-	app.Get("GetLeads")
-	app.Get("GetLead")
-	app.Post("CreateLead")
+	app.Get("api/1/leads", lead.GetLeads)
+	app.Get("api/v1/lead/:id", lead.GetLead)
+	app.Post("api/v1/lead", lead.CreateLead)
 	//app.Put("UpdateLead")
-	app.Delete("DeleteLead")
+	app.Delete("api/v1/lead/:id", lead.DeleteLead)
 }
 
 func initDatabase() {
@@ -25,6 +27,9 @@ func initDatabase() {
 		// handle the error, e.g., log it or panic
 		log.Fatal(err)
 	}
+	fmt.Println("Connected to the database")
+	database.DBConn.AutoMigrate(&lead.Lead{})
+	fmt.Println("Database Migrated")
 }
 func main() {
 	app := fiber.New()
